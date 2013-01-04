@@ -99,9 +99,11 @@ class Thumbsup {
 
         //
         // if the folder doesn't exist, create it with the
-        if(!is_dir($saveTo))
-            mkdir($saveTo);
+        if(!is_dir(path('public') . $saveTo))
+            mkdir(path('public') . $saveTo);
 
+        //
+        // file location
         $saveName = $saveTo . DS . md5($imgSrc . $x . $y) . '.' . $mimeExtension;
 
         //
