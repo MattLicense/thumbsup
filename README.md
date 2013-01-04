@@ -1,4 +1,4 @@
-Thumb'sUp
+ThumbsUp
 --------
 
 A Laravel bundle to crop jpeg, png, gif images to set dimensions.
