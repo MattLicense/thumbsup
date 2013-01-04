@@ -7,8 +7,6 @@ namespace Thumbsup;
  * Date     January 2013
  */
 
-use Laravel\File;
-
 class Thumbsup {
 
     /**
