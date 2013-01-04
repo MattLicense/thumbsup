@@ -16,7 +16,7 @@ Then you'll need to register the bundle in <code>application/bundles.php</code>
 
 And add the alias to <code>application/config/application.php</code> (you don't have to, but it looks nicer in your code)
 
-<code>'Thumbsup' => 'Thumbsup\\Thumbsup',</code>
+<code>'Thumbsup' => 'Thumbsup\\\Thumbsup',</code>
 
 Usage
 -----
