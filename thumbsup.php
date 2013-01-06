@@ -85,35 +85,44 @@ class Thumbsup {
         $mimeExtension      = static::$mimeTypes[$fileType]['ext'];
 
         //
-        // create the image
-        $src = $createImageFrom($imgSrc);
-        $dest = imagecreatetruecolor($width, $height);
-
-        imagecopy($dest, $src, 0, 0, $x, $y, $width, $height);
-
-        //
         // save the image to /public/img/thumbs (by default)
         $saveTo = 'img' . DS . static::$saveFolder;
 
         //
-        // if the folder doesn't exist, create it with the
+        // generate a name
+        $saveName = md5($imgSrc . $x . $y . $width . $height) . '.' . $mimeExtension;
+
+        //
+        // if the save folder doesn't exist, create it with the
         if(!is_dir(path('public') . $saveTo))
             mkdir(path('public') . $saveTo);
 
         //
         // file location
-        $saveName = $saveTo . DS . md5($imgSrc . $x . $y) . '.' . $mimeExtension;
+        $savePath = $saveTo . DS . $saveName;
 
         //
-        // copy the image to the output buffer and destroy the image to free up resources
-        ob_start();
-        $imageFrom($dest);
-        $output = ob_get_clean();
-        imagedestroy($dest);
+        // make sure we've haven't made this thumbnail before
+        if(!file_exists($savePath)) {
+            //
+            // create the image
+            $src = $createImageFrom($imgSrc);
+            $dest = imagecreatetruecolor($width, $height);
 
-        //
-        // save the buffer and return the img tag
-        \File::put(path('public') . $saveName, $output) ? $saveName : false;
-        return '<img src="' . $saveName . '">';
+            imagecopy($dest, $src, 0, 0, $x, $y, $width, $height);
+
+            //
+            // copy the image to the output buffer and destroy the image to free up resources
+            ob_start();
+            $imageFrom($dest);
+            $output = ob_get_clean();
+            imagedestroy($dest);
+
+            //
+            // save the buffer and return the img tag
+            \File::put(path('public') . $savePath, $output) ? $saveName : false;
+        }
+
+        return '<img src="' . $savePath . '">';
     }
 }
